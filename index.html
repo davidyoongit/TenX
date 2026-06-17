@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TenX 텐베거 통합 대시보드</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLochA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
 <style>
 :root{--nb:#00d4ff;--ng:#00ff88;--np:#bf5fff;--no:#ff6b35;}
@@ -363,6 +363,88 @@ canvas{max-width:100%;}
           <div class="prog-row"><div class="prog-lbl">공매도 비율</div><div class="prog-track"><div class="prog-fill" id="si-bar" style="background:#ff4444;"></div></div><div class="prog-val" id="si-val" style="color:#ff4444;">—</div></div>
           <div class="prog-row"><div class="prog-lbl">기관 보유</div><div class="prog-track"><div class="prog-fill" id="io-bar" style="background:var(--ng);"></div></div><div class="prog-val" id="io-val" style="color:var(--ng);">—</div></div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 인텔리전스 위젯 행 -->
+  <div class="grid-2x2" id="intel-grid" style="grid-template-columns:1fr 1fr;">
+    <!-- 애널리스트 추천 -->
+    <div class="widget">
+      <div class="widget-title"><i class="fas fa-user-tie"></i> 애널리스트 추천 트렌드 <span class="api-field-tag live-field">LIVE</span></div>
+      <div id="rec-loading" style="color:#64748b;font-size:12px;padding:8px 0;"><i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>데이터 로딩 중...</div>
+      <div id="rec-content" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+          <div>
+            <div style="font-size:11px;color:#64748b;margin-bottom:4px;">최신 컨센서스</div>
+            <div id="rec-consensus" style="font-size:22px;font-weight:800;"></div>
+          </div>
+          <div id="rec-target-box" style="text-align:right;">
+            <div style="font-size:11px;color:#64748b;margin-bottom:4px;">평균 목표주가</div>
+            <div id="rec-target" style="font-size:20px;font-weight:800;color:var(--nb);">—</div>
+            <div id="rec-upside" style="font-size:11px;margin-top:2px;"></div>
+          </div>
+        </div>
+        <canvas id="recChart" height="130"></canvas>
+        <div id="rec-detail" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px;text-align:center;"></div>
+        <div style="font-size:10px;color:#475569;margin-top:10px;"><i class="fas fa-info-circle" style="margin-right:4px;"></i>출처: Finnhub /stock/recommendation · /stock/price-target</div>
+      </div>
+      <div id="rec-error" style="display:none;" class="error-box"><i class="fas fa-exclamation-circle" style="color:#ef4444;"></i><span></span></div>
+    </div>
+
+    <!-- 목표주가 분포 -->
+    <div class="widget">
+      <div class="widget-title"><i class="fas fa-bullseye"></i> 목표주가 분포 &amp; 업사이드 <span class="api-field-tag live-field">LIVE</span></div>
+      <div id="pt-loading" style="color:#64748b;font-size:12px;padding:8px 0;"><i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>데이터 로딩 중...</div>
+      <div id="pt-content" style="display:none;">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
+          <div style="background:#020617;border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:10px;color:#64748b;margin-bottom:4px;">최고 목표가</div>
+            <div id="pt-high" style="font-size:18px;font-weight:800;color:var(--ng);">—</div>
+          </div>
+          <div style="background:#020617;border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:10px;color:#64748b;margin-bottom:4px;">평균 목표가</div>
+            <div id="pt-mean" style="font-size:18px;font-weight:800;color:var(--nb);">—</div>
+          </div>
+          <div style="background:#020617;border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:10px;color:#64748b;margin-bottom:4px;">최저 목표가</div>
+            <div id="pt-low" style="font-size:18px;font-weight:800;color:var(--no);">—</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;">
+          <div style="font-size:11px;color:#64748b;display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span>현재가 대비 업사이드</span><span id="pt-upside-pct" style="font-weight:700;"></span>
+          </div>
+          <div class="gauge-track" style="height:12px;">
+            <div id="pt-upside-bar" class="gauge-fill" style="background:linear-gradient(90deg,var(--nb),var(--ng));"></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#64748b;margin-bottom:6px;">현재가 위치 (목표가 범위)</div>
+        <div style="position:relative;height:32px;background:#1e293b;border-radius:8px;overflow:hidden;margin-bottom:8px;">
+          <div id="pt-range-fill" style="position:absolute;top:0;height:100%;background:linear-gradient(90deg,rgba(255,107,53,.3),rgba(0,212,255,.3),rgba(0,255,136,.3));border-radius:8px;"></div>
+          <div id="pt-cur-marker" style="position:absolute;top:4px;width:4px;height:24px;background:#fff;border-radius:2px;transform:translateX(-50%);"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#475569;margin-bottom:4px;">
+          <span id="pt-low-lbl">—</span><span style="color:#94a3b8;">현재가</span><span id="pt-high-lbl">—</span>
+        </div>
+        <div id="pt-analyst-count" style="font-size:11px;color:#64748b;margin-top:8px;"></div>
+        <div style="font-size:10px;color:#475569;margin-top:6px;"><i class="fas fa-info-circle" style="margin-right:4px;"></i>출처: Finnhub /stock/price-target</div>
+      </div>
+      <div id="pt-error" style="display:none;" class="error-box"><i class="fas fa-exclamation-circle" style="color:#ef4444;"></i><span></span></div>
+    </div>
+  </div>
+
+  <!-- 뉴스 피드 -->
+  <div class="widget" style="margin-bottom:24px;">
+    <div class="widget-title"><i class="fas fa-newspaper"></i> 최신 뉴스 피드 <span class="api-field-tag live-field">LIVE</span>
+      <span style="font-size:11px;color:#475569;font-weight:400;margin-left:auto;">출처: Finnhub /company-news</span>
+    </div>
+    <div id="news-loading" style="color:#64748b;font-size:12px;padding:12px 0;"><i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>뉴스 로딩 중...</div>
+    <div id="news-list" style="display:none;"></div>
+    <div id="news-error" style="display:none;" class="error-box"><i class="fas fa-exclamation-circle" style="color:#ef4444;"></i><span></span></div>
+    <div id="news-mock" style="display:none;">
+      <div style="padding:14px;background:#0d1f35;border-radius:8px;border:1px dashed #334155;color:#64748b;font-size:13px;text-align:center;">
+        <i class="fas fa-key" style="margin-right:6px;color:#f59e0b;"></i>API 키를 연결하면 실시간 뉴스가 표시됩니다
       </div>
     </div>
   </div>
@@ -931,6 +1013,10 @@ async function runAnalysis() {
     (isBreak ? '⚡ 52주 고점 근접 — 돌파 임박' : '⏳ 조정 구간 — 베이스 형성 중') + '</span><br>' +
     '52주 고가 대비 현재 위치: <strong style="color:var(--nb)">' + nearHigh + '%</strong> &nbsp;|&nbsp; 고가: ' + fmtP(high52) + ' &nbsp;저가: ' + fmtP(low52);
 
+  // 인텔리전스 위젯 초기화 후 fetch
+  resetIntelWidgets();
+  fetchIntelData(t);
+
   // 위젯 타이틀 i버튼 주입 (중복 방지)
   injectWidgetBtns();
   updateAlertRule(t, price, fairValue);
@@ -1056,9 +1142,223 @@ function toggleChk(ticker, idx) {
   renderChecklist(ticker, DB[ticker]);
 }
 
+function resetIntelWidgets() {
+  ['rec-loading','pt-loading','news-loading'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) { el.style.display='block'; el.innerHTML='<i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i>데이터 로딩 중...'; }
+  });
+  ['rec-content','pt-content','news-list','rec-error','pt-error','news-error','news-mock'].forEach(function(id){
+    var el = document.getElementById(id); if (el) el.style.display='none';
+  });
+  dc('recChart');
+}
+
 // ================================================================
-// ALERT
+// INTEL WIDGETS — 애널리스트 추천 / 목표주가 / 뉴스
 // ================================================================
+async function fetchIntelData(ticker) {
+  // API 키 없으면 mock 표시
+  if (!FINNHUB_API_KEY) {
+    showNewsMock(); showRecMock(ticker); showPtMock(ticker);
+    return;
+  }
+  var today = new Date();
+  var from  = new Date(today); from.setDate(from.getDate() - 30);
+  var toStr   = today.toISOString().slice(0,10);
+  var fromStr = from.toISOString().slice(0,10);
+
+  // 병렬 fetch
+  var results = await Promise.all([
+    safeFetch(FINNHUB_BASE + '/stock/recommendation?symbol=' + ticker + '&token=' + FINNHUB_API_KEY),
+    safeFetch(FINNHUB_BASE + '/stock/price-target?symbol='   + ticker + '&token=' + FINNHUB_API_KEY),
+    safeFetch(FINNHUB_BASE + '/company-news?symbol='         + ticker + '&from=' + fromStr + '&to=' + toStr + '&token=' + FINNHUB_API_KEY)
+  ]);
+
+  renderRecommendation(results[0], ticker);
+  renderPriceTarget(results[1], ticker);
+  renderNews(results[2], ticker);
+}
+
+async function safeFetch(url) {
+  try {
+    var r = await fetch(url);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch(e) { return null; }
+}
+
+// ── 애널리스트 추천 트렌드 ──
+function renderRecommendation(data, ticker) {
+  var loading = document.getElementById('rec-loading');
+  var content = document.getElementById('rec-content');
+  var errEl   = document.getElementById('rec-error');
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    loading.style.display = 'none';
+    errEl.style.display = 'flex';
+    errEl.querySelector('span').textContent = ticker + ' 추천 데이터 없음 (미국 상장 종목 확인)';
+    return;
+  }
+
+  loading.style.display = 'none'; content.style.display = 'block';
+  var latest = data[0]; // 가장 최신
+  var total = (latest.strongBuy||0)+(latest.buy||0)+(latest.hold||0)+(latest.sell||0)+(latest.strongSell||0);
+  var buyPct = total ? Math.round(((latest.strongBuy+latest.buy)/total)*100) : 0;
+
+  // 컨센서스 판정
+  var consensus, cColor;
+  if (buyPct >= 65)      { consensus='Strong Buy'; cColor='var(--ng)'; }
+  else if (buyPct >= 50) { consensus='Buy';        cColor='#4ade80'; }
+  else if (buyPct >= 35) { consensus='Hold';       cColor='#f59e0b'; }
+  else                   { consensus='Sell';       cColor='#ff4444'; }
+
+  document.getElementById('rec-consensus').innerHTML =
+    '<span style="color:' + cColor + '">' + consensus + '</span>' +
+    '<span style="font-size:12px;color:#64748b;font-weight:400;margin-left:8px;">매수 ' + buyPct + '%</span>';
+
+  // 최근 3개월 스택드 바 차트
+  dc('recChart');
+  var recent = data.slice(0, 4).reverse();
+  var labels = recent.map(function(d){ return d.period ? d.period.slice(0,7) : ''; });
+  var ctx = document.getElementById('recChart').getContext('2d');
+  charts['recChart'] = new Chart(ctx, { type:'bar',
+    data:{ labels:labels, datasets:[
+      {label:'Strong Buy', data:recent.map(function(d){return d.strongBuy||0;}), backgroundColor:'rgba(0,255,136,0.9)', borderRadius:2},
+      {label:'Buy',        data:recent.map(function(d){return d.buy||0;}),       backgroundColor:'rgba(0,255,136,0.4)', borderRadius:2},
+      {label:'Hold',       data:recent.map(function(d){return d.hold||0;}),      backgroundColor:'rgba(245,158,11,0.6)', borderRadius:2},
+      {label:'Sell',       data:recent.map(function(d){return d.sell||0;}),      backgroundColor:'rgba(255,107,53,0.5)', borderRadius:2},
+      {label:'Strong Sell',data:recent.map(function(d){return d.strongSell||0;}),backgroundColor:'rgba(255,68,68,0.8)',  borderRadius:2}
+    ]},
+    options:{ responsive:true, plugins:{
+      legend:{labels:{color:'#94a3b8',font:{size:9},boxWidth:10}},
+      tooltip:{backgroundColor:'#0a1628',borderColor:'#1e3a5f',borderWidth:1,titleColor:'#00d4ff',bodyColor:'#e2e8f0'}
+    },
+    scales:{x:{stacked:true,ticks:{color:'#64748b',font:{size:10}},grid:{color:'#1e293b'}},
+            y:{stacked:true,ticks:{color:'#64748b'},grid:{color:'#1e293b'}}}}
+  });
+
+  // 최신 상세 분포 pills
+  var pillCfg = [
+    {label:'Strong Buy', val:latest.strongBuy||0, bg:'rgba(0,255,136,.15)', clr:'var(--ng)'},
+    {label:'Buy',        val:latest.buy||0,       bg:'rgba(0,255,136,.08)', clr:'#4ade80'},
+    {label:'Hold',       val:latest.hold||0,      bg:'rgba(245,158,11,.15)',clr:'#f59e0b'},
+    {label:'Sell',       val:latest.sell||0,      bg:'rgba(255,107,53,.15)',clr:'var(--no)'},
+    {label:'Strong Sell',val:latest.strongSell||0,bg:'rgba(255,68,68,.15)', clr:'#ff4444'}
+  ];
+  document.getElementById('rec-detail').innerHTML = pillCfg.map(function(p){
+    return '<div class="rec-pill" style="background:'+p.bg+';color:'+p.clr+'"><div style="font-size:16px;font-weight:800;">'+p.val+'</div><div style="font-size:9px;margin-top:2px;">'+p.label+'</div></div>';
+  }).join('');
+}
+
+function showRecMock(ticker) {
+  var loading = document.getElementById('rec-loading');
+  loading.innerHTML = '<div style="padding:14px;background:#0d1f35;border-radius:8px;border:1px dashed #334155;color:#64748b;font-size:13px;text-align:center;"><i class="fas fa-key" style="margin-right:6px;color:#f59e0b;"></i>API 키 연결 시 ' + ticker + ' 추천 트렌드가 표시됩니다</div>';
+}
+
+// ── 목표주가 ──
+function renderPriceTarget(data, ticker) {
+  var loading = document.getElementById('pt-loading');
+  var content = document.getElementById('pt-content');
+  var errEl   = document.getElementById('pt-error');
+
+  if (!data || data.targetMean == null) {
+    loading.style.display = 'none';
+    errEl.style.display = 'flex';
+    errEl.querySelector('span').textContent = ticker + ' 목표주가 데이터 없음';
+    return;
+  }
+
+  loading.style.display = 'none'; content.style.display = 'block';
+  var price = getPrice(ticker);
+  var mean  = data.targetMean, high = data.targetHigh, low = data.targetLow;
+  var upside = mean ? Math.round(((mean - price)/price)*100) : 0;
+
+  document.getElementById('pt-high').textContent = fmtP(high||0);
+  document.getElementById('pt-mean').textContent = fmtP(mean||0);
+  document.getElementById('pt-low').textContent  = fmtP(low||0);
+  document.getElementById('pt-high-lbl').textContent = fmtP(high||0);
+  document.getElementById('pt-low-lbl').textContent  = fmtP(low||0);
+  document.getElementById('pt-analyst-count').textContent =
+    '분석가 ' + (data.numberOfAnalysts||'—') + '명 기준 · 마지막 업데이트: ' + (data.lastUpdated||'—');
+
+  var uEl = document.getElementById('pt-upside-pct');
+  uEl.textContent = (upside >= 0 ? '+' : '') + upside + '%';
+  uEl.style.color = upside >= 0 ? 'var(--ng)' : '#ff4444';
+  document.getElementById('pt-upside-bar').style.width = Math.min(100, Math.abs(upside)) + '%';
+  document.getElementById('pt-upside-bar').style.background = upside >= 0 ? 'linear-gradient(90deg,var(--nb),var(--ng))' : 'linear-gradient(90deg,var(--no),#ff4444)';
+
+  // 현재가 마커 위치
+  if (high && low && high > low) {
+    var pct = Math.max(0, Math.min(100, ((price - low)/(high - low))*100));
+    document.getElementById('pt-range-fill').style.width = '100%';
+    document.getElementById('pt-cur-marker').style.left = pct + '%';
+  }
+
+  // 추천 추가 표시 (rec 위젯에서 목표가 중복)
+  var rtBox = document.getElementById('rec-target');
+  var ruBox = document.getElementById('rec-upside');
+  if (rtBox) {
+    rtBox.textContent = fmtP(mean||0);
+    ruBox.textContent = (upside >= 0 ? '+' : '') + upside + '% 업사이드';
+    ruBox.style.color = upside >= 0 ? 'var(--ng)' : '#ff4444';
+    document.getElementById('rec-target-box').style.display = 'block';
+  }
+}
+
+function showPtMock(ticker) {
+  document.getElementById('pt-loading').innerHTML =
+    '<div style="padding:14px;background:#0d1f35;border-radius:8px;border:1px dashed #334155;color:#64748b;font-size:13px;text-align:center;"><i class="fas fa-key" style="margin-right:6px;color:#f59e0b;"></i>API 키 연결 시 목표주가 데이터가 표시됩니다</div>';
+}
+
+// ── 뉴스 피드 ──
+function renderNews(data, ticker) {
+  var loading = document.getElementById('news-loading');
+  var listEl  = document.getElementById('news-list');
+  var errEl   = document.getElementById('news-error');
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    loading.style.display = 'none';
+    errEl.style.display = 'flex';
+    errEl.querySelector('span').textContent = ticker + ' 최근 30일 뉴스 없음';
+    return;
+  }
+
+  loading.style.display = 'none'; listEl.style.display = 'block';
+  var items = data.slice(0, 10); // 최신 10건
+  listEl.innerHTML = items.map(function(n) {
+    var ts  = n.datetime ? new Date(n.datetime*1000) : new Date();
+    var timeStr = ts.toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+    // 간이 감성 분석 (제목 키워드 기반)
+    var hl = (n.headline||'').toLowerCase();
+    var sentCls, sentLbl;
+    var posWords = ['surge','jump','beat','soar','rise','gain','bull','strong','record','up','growth','profit'];
+    var negWords = ['drop','fall','miss','slump','decline','loss','down','cut','warn','risk','short','concern'];
+    var posScore = posWords.filter(function(w){return hl.indexOf(w)>=0;}).length;
+    var negScore = negWords.filter(function(w){return hl.indexOf(w)>=0;}).length;
+    if (posScore > negScore)      { sentCls='sent-pos'; sentLbl='긍정'; }
+    else if (negScore > posScore) { sentCls='sent-neg'; sentLbl='부정'; }
+    else                          { sentCls='sent-neu'; sentLbl='중립'; }
+
+    return '<div class="news-item">' +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">' +
+          '<span class="news-source">' + (n.source||'—') + '</span>' +
+          '<span class="news-sentiment ' + sentCls + '">' + sentLbl + '</span>' +
+          '<span class="news-time" style="margin-left:auto;">' + timeStr + '</span>' +
+        '</div>' +
+        '<div class="news-headline">' +
+          (n.url ? '<a href="' + n.url + '" target="_blank" rel="noopener">' + (n.headline||'') + '</a>' : (n.headline||'')) +
+        '</div>' +
+        (n.summary ? '<div style="font-size:11px;color:#64748b;margin-top:4px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">' + n.summary + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function showNewsMock() {
+  document.getElementById('news-loading').style.display = 'none';
+  document.getElementById('news-mock').style.display = 'block';
+}
 function updateAlertVal() {
   var type = document.getElementById('alert-type').value;
   var s = document.getElementById('alert-slider');
