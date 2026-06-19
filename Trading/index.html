@@ -135,6 +135,52 @@ select{background:#020617;border:1px solid #1e3a5f;color:#e2e8f0;padding:8px 12p
 .calc-field{background:rgba(0,212,255,.2);color:var(--nb);}
 .mock-field{background:rgba(245,158,11,.2);color:#f59e0b;}
 
+/* STRATEGY TAB */
+#tab3{background:#0f172a;min-height:calc(100vh - 53px);padding:24px;}
+.strat-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
+.strat-card{background:#0a1628;border:1px solid #1e293b;border-radius:14px;padding:22px;}
+.strat-card-full{background:#0a1628;border:1px solid #1e293b;border-radius:14px;padding:22px;margin-bottom:24px;}
+.strat-title{font-size:13px;font-weight:700;color:#e2e8f0;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.strat-title i{color:var(--nb);}
+.param-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #0f1f33;}
+.param-row:last-child{border-bottom:none;}
+.param-label{font-size:12px;color:#94a3b8;}
+.param-value{font-size:13px;font-weight:700;color:var(--nb);}
+.param-value.green{color:var(--ng);}
+.param-value.orange{color:#f59e0b;}
+.param-value.off{color:#475569;}
+.formula-box{background:#020617;border:1px solid #1e3a5f;border-radius:10px;padding:16px;margin-bottom:14px;font-family:monospace;}
+.formula-line{font-size:13px;color:#e2e8f0;line-height:2;}
+.formula-line .kw{color:var(--nb);}
+.formula-line .val{color:var(--ng);}
+.formula-line .op{color:var(--np);}
+.formula-line .cmt{color:#475569;font-size:11px;}
+.condition-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;margin-bottom:8px;background:#020617;border:1px solid #1e3a5f;}
+.condition-row .cnum{width:22px;height:22px;border-radius:50%;background:var(--nb);color:#020617;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.condition-row .ctext{font-size:12px;color:#e2e8f0;flex:1;}
+.condition-row .ctag{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;background:rgba(0,212,255,.15);color:var(--nb);white-space:nowrap;}
+.timeline-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.timeline-dot{width:10px;height:10px;border-radius:50%;background:var(--nb);flex-shrink:0;margin-top:5px;}
+.timeline-dot.sell{background:var(--no);}
+.timeline-dot.exit{background:#475569;}
+.timeline-line{position:absolute;left:4px;top:15px;bottom:-16px;width:2px;background:#1e293b;}
+.timeline-time{font-size:12px;font-weight:700;color:var(--nb);width:90px;flex-shrink:0;}
+.timeline-time.sell{color:var(--no);}
+.timeline-time.exit{color:#475569;}
+.timeline-desc{font-size:12px;color:#94a3b8;line-height:1.6;}
+.etf-chip{display:inline-flex;flex-direction:column;align-items:center;background:#0d1f35;border:1px solid #1e3a5f;border-radius:10px;padding:10px 14px;margin:5px;min-width:90px;}
+.etf-code{font-size:13px;font-weight:700;color:var(--nb);}
+.etf-name{font-size:10px;color:#64748b;margin-top:3px;text-align:center;}
+.bug-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid #0f1f33;}
+.bug-item:last-child{border-bottom:none;}
+.bug-badge{flex-shrink:0;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#ef4444;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;margin-top:2px;}
+.bug-text{font-size:12px;color:#94a3b8;line-height:1.6;}
+.bug-text code{background:#020617;color:var(--np);padding:1px 5px;border-radius:4px;font-size:11px;}
+.strategy-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(0,212,255,.15),rgba(0,255,136,.1));border:1px solid rgba(0,212,255,.3);border-radius:12px;padding:12px 18px;margin-bottom:18px;}
+.strategy-name{font-size:16px;font-weight:800;background:linear-gradient(90deg,var(--nb),var(--ng));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.status-on{color:var(--ng);font-weight:700;}
+.status-off{color:#475569;font-weight:700;}
+
 /* TOOLTIP */
 .info-btn{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid #475569;color:#64748b;font-size:9px;font-weight:700;cursor:pointer;background:transparent;flex-shrink:0;font-family:serif;font-style:italic;line-height:1;}
 .info-btn:hover{border-color:var(--nb);color:var(--nb);background:rgba(0,212,255,.1);}
@@ -189,6 +235,7 @@ canvas{max-width:100%;}
   <div class="tab-logo"><i class="fas fa-rocket"></i> TenX</div>
   <button class="tab-btn active" onclick="switchTab('tab1',this)" id="tabBtn1"><i class="fas fa-filter"></i> 스크리너</button>
   <button class="tab-btn" onclick="switchTab('tab2',this)" id="tabBtn2"><i class="fas fa-chart-line"></i> 상세 분석</button>
+  <button class="tab-btn" onclick="switchTab('tab3',this)" id="tabBtn3"><i class="fas fa-robot"></i> 매매 전략</button>
   <div class="data-meta">
     <div class="live-dot offline" id="live-dot"></div>
     <span class="src-badge" id="data-src-badge">Mock Data</span>
@@ -473,6 +520,354 @@ canvas{max-width:100%;}
       </div>
     </div>
   </div>
+</div>
+
+<!-- ===================== TAB 3 ===================== -->
+<div id="tab3" class="tab-panel">
+
+  <!-- 헤더 -->
+  <div style="margin-bottom:24px;">
+    <h1 style="font-size:22px;font-weight:800;color:#e2e8f0;margin-bottom:6px;"><i class="fas fa-robot" style="color:var(--nb);margin-right:10px;"></i>ETF 자동매매 하네스 · 전략 요약</h1>
+    <div style="font-size:13px;color:#64748b;">harness.py 기준 · strategy_selector가 당일 시장 상황에 따라 전략 자동 선택</div>
+  </div>
+
+  <!-- 하네스 아키텍처 -->
+  <div class="strat-card-full">
+    <div class="strat-title"><i class="fas fa-code-branch"></i> 하네스 아키텍처</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;">
+      <div style="background:#020617;border:1px solid rgba(0,212,255,.4);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#64748b;margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">진입점</div>
+        <div style="font-size:13px;font-weight:700;color:var(--nb);">harness.py</div>
+        <div style="font-size:10px;color:#475569;margin-top:4px;">메인 루프 · 매수/매도 · 리포트</div>
+      </div>
+      <div style="background:#020617;border:1px solid rgba(0,255,136,.3);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#64748b;margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">전략 선택</div>
+        <div style="font-size:13px;font-weight:700;color:var(--ng);">strategy_selector.py</div>
+        <div style="font-size:10px;color:#475569;margin-top:4px;">시장 분석 → 전략 자동 선택</div>
+      </div>
+      <div style="background:#020617;border:1px solid #1e3a5f;border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#64748b;margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">API 레이어</div>
+        <div style="font-size:13px;font-weight:700;color:var(--nb);">kis_api.py</div>
+        <div style="font-size:10px;color:#475569;margin-top:4px;">토큰·시세·잔고·주문</div>
+      </div>
+      <div style="background:#020617;border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#64748b;margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">매매 기록</div>
+        <div style="font-size:13px;font-weight:700;color:#f59e0b;">trade_logger.py</div>
+        <div style="font-size:10px;color:#475569;margin-top:4px;">trades/YYYYMMDD.json</div>
+      </div>
+      <div style="background:#020617;border:1px solid rgba(191,95,255,.3);border-radius:10px;padding:14px;text-align:center;">
+        <div style="font-size:10px;color:#64748b;margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px;">리포트</div>
+        <div style="font-size:13px;font-weight:700;color:var(--np);">reporter.py</div>
+        <div style="font-size:10px;color:#475569;margin-top:4px;">Slack #stock 채널 전송</div>
+      </div>
+    </div>
+    <div style="background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:8px;padding:10px 16px;font-size:11px;color:#64748b;line-height:1.9;">
+      <strong style="color:var(--nb);">실행:</strong> <code style="background:#020617;color:var(--np);padding:1px 6px;border-radius:4px;">python harness.py</code>
+      &nbsp;·&nbsp; 단일 전략 테스트: <code style="background:#020617;color:var(--np);padding:1px 6px;border-radius:4px;">python trader.py</code>
+      &nbsp;·&nbsp; 드라이런: <code style="background:#020617;color:var(--np);padding:1px 6px;border-radius:4px;">python dry_run.py</code>
+    </div>
+  </div>
+
+  <!-- 전략 선택 로직 -->
+  <div class="strat-card-full">
+    <div class="strat-title"><i class="fas fa-brain"></i> 전략 자동 선택 로직 (strategy_selector.py)</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:14px;">KODEX 200 (069500)을 시장 지표로 사용 · 우선순위 순 평가</div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead>
+          <tr style="background:#0d1f35;">
+            <th style="padding:10px 14px;text-align:left;color:#64748b;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap;">우선순위</th>
+            <th style="padding:10px 14px;text-align:left;color:#64748b;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.8px;">조건</th>
+            <th style="padding:10px 14px;text-align:left;color:#64748b;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.8px;">선택 전략</th>
+            <th style="padding:10px 14px;text-align:left;color:#64748b;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.8px;">파일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #0f1f33;">
+            <td style="padding:10px 14px;color:#f59e0b;font-weight:700;">1</td>
+            <td style="padding:10px 14px;color:#e2e8f0;">갭업 &ge; 0.5%</td>
+            <td style="padding:10px 14px;color:var(--ng);font-weight:700;">GapFollow</td>
+            <td style="padding:10px 14px;"><code style="background:#020617;color:var(--np);padding:1px 5px;border-radius:4px;font-size:11px;">strategy_gap.py</code></td>
+          </tr>
+          <tr style="border-bottom:1px solid #0f1f33;">
+            <td style="padding:10px 14px;color:#f59e0b;font-weight:700;">2</td>
+            <td style="padding:10px 14px;color:#e2e8f0;">전일 레인지 &lt; 1.5% (좁은 레인지)</td>
+            <td style="padding:10px 14px;color:var(--ng);font-weight:700;">OpeningRangeBreakout</td>
+            <td style="padding:10px 14px;"><code style="background:#020617;color:var(--np);padding:1px 5px;border-radius:4px;font-size:11px;">strategy_orb.py</code></td>
+          </tr>
+          <tr style="border-bottom:1px solid #0f1f33;">
+            <td style="padding:10px 14px;color:#f59e0b;font-weight:700;">3</td>
+            <td style="padding:10px 14px;color:#e2e8f0;">상승추세 + MA5 기울기 &ge; 0.3%</td>
+            <td style="padding:10px 14px;color:var(--ng);font-weight:700;">DualMomentum</td>
+            <td style="padding:10px 14px;"><code style="background:#020617;color:var(--np);padding:1px 5px;border-radius:4px;font-size:11px;">strategy_dual_momentum.py</code></td>
+          </tr>
+          <tr style="border-bottom:1px solid #0f1f33;">
+            <td style="padding:10px 14px;color:#f59e0b;font-weight:700;">4</td>
+            <td style="padding:10px 14px;color:#e2e8f0;">상승추세 (MA5 &gt; MA20)</td>
+            <td style="padding:10px 14px;color:var(--ng);font-weight:700;">VolatilityBreakout</td>
+            <td style="padding:10px 14px;"><code style="background:#020617;color:var(--np);padding:1px 5px;border-radius:4px;font-size:11px;">strategy.py</code></td>
+          </tr>
+          <tr style="border-bottom:1px solid #0f1f33;">
+            <td style="padding:10px 14px;color:#f59e0b;font-weight:700;">5</td>
+            <td style="padding:10px 14px;color:#e2e8f0;">하락추세 + MA5 기울기 &le; -0.3%</td>
+            <td style="padding:10px 14px;color:var(--ng);font-weight:700;">RSIOversoldBounce</td>
+            <td style="padding:10px 14px;"><code style="background:#020617;color:var(--np);padding:1px 5px;border-radius:4px;font-size:11px;">strategy_rsi.py</code></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;color:#475569;font-weight:700;">fallback</td>
+            <td style="padding:10px 14px;color:#64748b;">조건 미해당</td>
+            <td style="padding:10px 14px;color:#94a3b8;font-weight:700;">VolatilityBreakout</td>
+            <td style="padding:10px 14px;"><code style="background:#020617;color:var(--np);padding:1px 5px;border-radius:4px;font-size:11px;">strategy.py</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 전략 카드 그리드 -->
+  <div class="strat-grid">
+
+    <!-- GapFollow -->
+    <div class="strat-card" style="border-color:rgba(0,255,136,.3);">
+      <div class="strat-title"><i class="fas fa-arrow-trend-up" style="color:var(--ng);"></i> GapFollow · 갭 추종</div>
+      <div class="condition-row">
+        <div class="cnum" style="background:var(--ng);">1</div>
+        <div class="ctext">갭업률 &ge; <strong style="color:var(--ng);">0.3%</strong></div>
+        <div class="ctag" style="background:rgba(0,255,136,.15);color:var(--ng);">갭업 확인</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum" style="background:var(--ng);">2</div>
+        <div class="ctext">현재가 &gt; <strong style="color:var(--ng);">시가</strong> (양봉)</div>
+        <div class="ctag" style="background:rgba(0,255,136,.15);color:var(--ng);">방향 확인</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum" style="background:var(--ng);">3</div>
+        <div class="ctext">현재가 &gt; <strong style="color:var(--ng);">MA20</strong></div>
+        <div class="ctag" style="background:rgba(0,255,136,.15);color:var(--ng);">추세 필터</div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:var(--ng);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">TP +2.0%</span>
+        <span style="background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);color:var(--no);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">SL -1.5%</span>
+        <span style="background:rgba(100,116,139,.1);border:1px solid #334155;color:#94a3b8;padding:3px 10px;border-radius:10px;font-size:11px;">시가 하회 시 청산</span>
+      </div>
+    </div>
+
+    <!-- OpeningRangeBreakout -->
+    <div class="strat-card" style="border-color:rgba(0,212,255,.3);">
+      <div class="strat-title"><i class="fas fa-expand" style="color:var(--nb);"></i> OpeningRangeBreakout</div>
+      <div class="condition-row">
+        <div class="cnum">1</div>
+        <div class="ctext">장 시작 <strong style="color:var(--nb);">30분</strong> 레인지 형성</div>
+        <div class="ctag">ORB 구간</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum">2</div>
+        <div class="ctext">현재가 &gt; <strong style="color:var(--nb);">ORB 고가</strong> 돌파</div>
+        <div class="ctag">돌파 조건</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum">3</div>
+        <div class="ctext">현재가 &gt; <strong style="color:var(--nb);">MA20</strong></div>
+        <div class="ctag">추세 필터</div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:var(--ng);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">TP +2.0%</span>
+        <span style="background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);color:var(--no);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">SL -1.5%</span>
+        <span style="background:rgba(100,116,139,.1);border:1px solid #334155;color:#94a3b8;padding:3px 10px;border-radius:10px;font-size:11px;">harness가 update_range 호출</span>
+      </div>
+    </div>
+
+    <!-- DualMomentum -->
+    <div class="strat-card" style="border-color:rgba(191,95,255,.3);">
+      <div class="strat-title"><i class="fas fa-chart-bar" style="color:var(--np);"></i> DualMomentum · 듀얼 모멘텀</div>
+      <div class="condition-row">
+        <div class="cnum" style="background:var(--np);">1</div>
+        <div class="ctext">5일 수익률 &ge; <strong style="color:var(--np);">+1.0%</strong> (절대 모멘텀)</div>
+        <div class="ctag" style="background:rgba(191,95,255,.15);color:var(--np);">절대</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum" style="background:var(--np);">2</div>
+        <div class="ctext">모멘텀 순위 <strong style="color:var(--np);">Top 3</strong> / 전체 심볼</div>
+        <div class="ctag" style="background:rgba(191,95,255,.15);color:var(--np);">상대</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum" style="background:var(--np);">3</div>
+        <div class="ctext">현재가 &gt; <strong style="color:var(--np);">MA20</strong></div>
+        <div class="ctag" style="background:rgba(191,95,255,.15);color:var(--np);">추세</div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:var(--ng);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">TP +2.5%</span>
+        <span style="background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);color:var(--no);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">SL -1.5%</span>
+      </div>
+    </div>
+
+    <!-- VolatilityBreakout -->
+    <div class="strat-card">
+      <div class="strat-title"><i class="fas fa-wave-square" style="color:var(--nb);"></i> VolatilityBreakout · 변동성 돌파</div>
+      <div class="formula-box" style="margin-bottom:12px;">
+        <div class="formula-line"><span class="kw">목표가</span> <span class="op">=</span> 시가 <span class="op">+</span> (전일 고가<span class="op">-</span>저가) <span class="op">×</span> <span class="val">K(0.5)</span></div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum">1</div>
+        <div class="ctext">현재가 &gt; <strong style="color:var(--nb);">목표가</strong></div>
+        <div class="ctag">돌파 조건</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum">2</div>
+        <div class="ctext">현재가 &gt; MA5 &amp;&amp; MA10</div>
+        <div class="ctag">이중 MA</div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:var(--ng);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">TP +2.0%</span>
+        <span style="background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);color:var(--no);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">SL -1.5%</span>
+        <span style="background:rgba(100,116,139,.1);border:1px solid #334155;color:#94a3b8;padding:3px 10px;border-radius:10px;font-size:11px;">fallback 전략</span>
+      </div>
+    </div>
+
+    <!-- RSIOversoldBounce -->
+    <div class="strat-card">
+      <div class="strat-title"><i class="fas fa-arrow-down-wide-short" style="color:#ef4444;"></i> RSIOversoldBounce · RSI 반등</div>
+      <div class="condition-row">
+        <div class="cnum" style="background:#ef4444;">1</div>
+        <div class="ctext">RSI(14) &le; <strong style="color:#ef4444;">30</strong> (과매도)</div>
+        <div class="ctag" style="background:rgba(239,68,68,.15);color:#ef4444;">과매도</div>
+      </div>
+      <div class="condition-row">
+        <div class="cnum" style="background:#ef4444;">2</div>
+        <div class="ctext">현재가 &gt; <strong style="color:#ef4444;">전일 종가</strong></div>
+        <div class="ctag" style="background:rgba(239,68,68,.15);color:#ef4444;">반등 확인</div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span style="background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:var(--ng);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">TP +1.5%</span>
+        <span style="background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.3);color:var(--no);padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;">SL -1.0%</span>
+        <span style="background:rgba(100,116,139,.1);border:1px solid #334155;color:#94a3b8;padding:3px 10px;border-radius:10px;font-size:11px;">RSI≥70 시 청산</span>
+      </div>
+    </div>
+
+    <!-- BollingerBreakout + MomentumVolumeSurge -->
+    <div class="strat-card">
+      <div class="strat-title"><i class="fas fa-chart-area" style="color:#f59e0b;"></i> 보조 전략 2종</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:700;color:#f59e0b;margin-bottom:8px;">BollingerBreakout · 볼린저밴드 돌파</div>
+        <div class="condition-row" style="margin-bottom:6px;">
+          <div class="cnum" style="background:#f59e0b;color:#020617;">1</div>
+          <div class="ctext">현재가 &gt; <strong style="color:#f59e0b;">상단 밴드</strong> (20일, 2σ)</div>
+          <div class="ctag" style="background:rgba(245,158,11,.15);color:#f59e0b;">돌파</div>
+        </div>
+        <div class="condition-row">
+          <div class="cnum" style="background:#f59e0b;color:#020617;">2</div>
+          <div class="ctext">현재가 &gt; <strong style="color:#f59e0b;">MA20</strong></div>
+          <div class="ctag" style="background:rgba(245,158,11,.15);color:#f59e0b;">필터</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #1e293b;padding-top:12px;">
+        <div style="font-size:11px;font-weight:700;color:#f59e0b;margin-bottom:8px;">MomentumVolumeSurge · 모멘텀+거래량</div>
+        <div class="condition-row" style="margin-bottom:6px;">
+          <div class="cnum" style="background:#f59e0b;color:#020617;">1</div>
+          <div class="ctext">5일 수익률 &ge; <strong style="color:#f59e0b;">1.0%</strong></div>
+          <div class="ctag" style="background:rgba(245,158,11,.15);color:#f59e0b;">모멘텀</div>
+        </div>
+        <div class="condition-row">
+          <div class="cnum" style="background:#f59e0b;color:#020617;">2</div>
+          <div class="ctext">거래량 &gt; 평균 <strong style="color:#f59e0b;">× 1.5배</strong></div>
+          <div class="ctag" style="background:rgba(245,158,11,.15);color:#f59e0b;">거래량</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 타임라인 + 하네스 파라미터 -->
+  <div class="strat-grid">
+    <div class="strat-card">
+      <div class="strat-title"><i class="fas fa-clock"></i> 일과 타임라인</div>
+      <div class="timeline-row">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">09:00 ~ 09:05</div>
+        <div class="timeline-desc">기존 보유 종목 bought set 등록</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-dot"></div>
+        <div class="timeline-time">09:05 ~ 14:15</div>
+        <div class="timeline-desc">10초 간격 — 장중 익절/손절 체크 → 매수 시도 (최대 5종목)</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-dot sell"></div>
+        <div class="timeline-time sell">14:15 ~ 14:20</div>
+        <div class="timeline-desc">전량 EOD 매도 → finalize → Slack 일일 리포트 전송</div>
+      </div>
+      <div class="timeline-row" style="margin-bottom:0;">
+        <div class="timeline-dot exit"></div>
+        <div class="timeline-time exit">14:20 ~</div>
+        <div class="timeline-desc">프로그램 종료 · 토/일 자동 종료</div>
+      </div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-title"><i class="fas fa-sliders"></i> 하네스 파라미터</div>
+      <div class="param-row">
+        <div class="param-label">최대 매수 종목 수</div>
+        <div class="param-value">5 종목</div>
+      </div>
+      <div class="param-row">
+        <div class="param-label">종목별 매수 비율</div>
+        <div class="param-value orange">예수금 × 19%</div>
+      </div>
+      <div class="param-row">
+        <div class="param-label">매수 루프 간격</div>
+        <div class="param-value">10초</div>
+      </div>
+      <div class="param-row">
+        <div class="param-label">시장 지표 종목</div>
+        <div class="param-value">KODEX 200 (069500)</div>
+      </div>
+      <div class="param-row">
+        <div class="param-label">최근 성과 참조</div>
+        <div class="param-value">최근 10일 히스토리</div>
+      </div>
+      <div class="param-row">
+        <div class="param-label">매매 기록 경로</div>
+        <div class="param-value" style="font-size:11px;">trades/YYYYMMDD.json</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 매매 대상 ETF -->
+  <div class="strat-card-full">
+    <div class="strat-title"><i class="fas fa-layer-group"></i> 매매 대상 ETF 9종목 (harness.py SYMBOL_LIST)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:0;margin-bottom:6px;">
+      <div class="etf-chip"><span class="etf-code">251340</span><span class="etf-name">KODEX 코스닥150<br>선물인버스</span></div>
+      <div class="etf-chip"><span class="etf-code">233740</span><span class="etf-name">KODEX 코스닥150<br>레버리지</span></div>
+      <div class="etf-chip"><span class="etf-code">114800</span><span class="etf-name">KODEX<br>인버스</span></div>
+      <div class="etf-chip"><span class="etf-code">122630</span><span class="etf-name">KODEX<br>레버리지</span></div>
+      <div class="etf-chip"><span class="etf-code">229200</span><span class="etf-name">KODEX<br>코스닥150</span></div>
+      <div class="etf-chip"><span class="etf-code">069500</span><span class="etf-name">KODEX<br>200</span></div>
+      <div class="etf-chip"><span class="etf-code">250780</span><span class="etf-name">KODEX<br>코스닥150</span></div>
+      <div class="etf-chip"><span class="etf-code">148020</span><span class="etf-name">KOSEF<br>국고채10년</span></div>
+      <div class="etf-chip"><span class="etf-code">305540</span><span class="etf-name">TIGER<br>차이나CSI300</span></div>
+    </div>
+    <div style="font-size:11px;color:#475569;margin-top:8px;">
+      <i class="fas fa-info-circle" style="margin-right:4px;"></i>
+      심볼 순서대로 조건 검사 · 최대 5종목 매수 후 중단 ·
+      <span style="color:#ef4444;font-weight:600;">252670 (KODEX 인버스2X) 제외됨</span>
+    </div>
+  </div>
+
+  <!-- 새 전략 추가 가이드 -->
+  <div class="strat-card-full" style="margin-bottom:0;">
+    <div class="strat-title"><i class="fas fa-arrows-rotate"></i> 새 전략 추가 방법</div>
+    <div style="font-size:12px;color:#94a3b8;margin-bottom:14px;"><code style="background:#020617;color:var(--np);padding:1px 6px;border-radius:4px;">strategy_XXX.py</code> 생성 → <code style="background:#020617;color:var(--np);padding:1px 6px;border-radius:4px;">strategy_selector.py</code>에 조건 추가만 하면 자동 적용</div>
+    <div class="formula-box">
+      <div class="formula-line" style="color:#475569;"># 1. strategy_XXX.py 생성</div>
+      <div class="formula-line"><span class="kw">class</span> <span class="val">MyStrategy</span>(Strategy):</div>
+      <div class="formula-line">&nbsp;&nbsp;<span class="kw">def</span> should_buy(self, code, price, ask): ...</div>
+      <div class="formula-line">&nbsp;&nbsp;<span class="kw">def</span> should_sell(self, code, holding): ...</div>
+      <div style="height:8px;"></div>
+      <div class="formula-line" style="color:#475569;"># 2. strategy_selector.py 에 import + 조건 삽입</div>
+      <div class="formula-line"><span class="kw">from</span> strategy_xxx <span class="kw">import</span> <span class="val">MyStrategy</span></div>
+      <div class="formula-line"><span class="kw">if</span> &lt;조건&gt;: strategy <span class="op">=</span> <span class="val">MyStrategy</span>(...)</div>
+    </div>
+  </div>
+
 </div>
 
 <script>

@@ -1,0 +1,229 @@
+{
+  "date": "20260619",
+  "strategy": "GapFollow(gap≥0.3%, MA20, TP=2.0%, SL=-1.5%, exit_below_open=True)",
+  "trades": [
+    {
+      "code": "122630",
+      "name": "KODEX 레버리지",
+      "action": "buy",
+      "qty": 85,
+      "price": 9820,
+      "time": "08:44:30"
+    },
+    {
+      "code": "122630",
+      "name": "KODEX 레버리지",
+      "action": "sell",
+      "qty": 85,
+      "price": 10060,
+      "buy_price": 9820,
+      "pnl_amt": 20400,
+      "pnl_pct": 2.44,
+      "reason": "tp",
+      "time": "08:44:30"
+    },
+    {
+      "code": "233740",
+      "name": "KODEX 코스닥150레버리지",
+      "action": "buy",
+      "qty": 112,
+      "price": 7350,
+      "time": "08:44:30"
+    },
+    {
+      "code": "233740",
+      "name": "KODEX 코스닥150레버리지",
+      "action": "sell",
+      "qty": 112,
+      "price": 7620,
+      "buy_price": 7350,
+      "pnl_amt": 30240,
+      "pnl_pct": 3.67,
+      "reason": "tp",
+      "time": "08:44:30"
+    },
+    {
+      "code": "069500",
+      "name": "KODEX 200",
+      "action": "buy",
+      "qty": 230,
+      "price": 43200,
+      "time": "08:44:30"
+    },
+    {
+      "code": "069500",
+      "name": "KODEX 200",
+      "action": "sell",
+      "qty": 230,
+      "price": 43050,
+      "buy_price": 43200,
+      "pnl_amt": -34500,
+      "pnl_pct": -0.35,
+      "reason": "sl",
+      "time": "08:44:30"
+    },
+    {
+      "code": "229200",
+      "name": "KODEX 코스닥150",
+      "action": "buy",
+      "qty": 310,
+      "price": 6480,
+      "time": "08:44:30"
+    },
+    {
+      "code": "229200",
+      "name": "KODEX 코스닥150",
+      "action": "sell",
+      "qty": 310,
+      "price": 6650,
+      "buy_price": 6480,
+      "pnl_amt": 52700,
+      "pnl_pct": 2.62,
+      "reason": "eod",
+      "time": "08:44:30"
+    },
+    {
+      "code": "122630",
+      "name": "KODEX 레버리지",
+      "action": "buy",
+      "qty": 85,
+      "price": 9820,
+      "time": "08:44:58"
+    },
+    {
+      "code": "122630",
+      "name": "KODEX 레버리지",
+      "action": "sell",
+      "qty": 85,
+      "price": 10060,
+      "buy_price": 9820,
+      "pnl_amt": 20400,
+      "pnl_pct": 2.44,
+      "reason": "tp",
+      "time": "08:44:58"
+    },
+    {
+      "code": "233740",
+      "name": "KODEX 코스닥150레버리지",
+      "action": "buy",
+      "qty": 112,
+      "price": 7350,
+      "time": "08:44:58"
+    },
+    {
+      "code": "233740",
+      "name": "KODEX 코스닥150레버리지",
+      "action": "sell",
+      "qty": 112,
+      "price": 7620,
+      "buy_price": 7350,
+      "pnl_amt": 30240,
+      "pnl_pct": 3.67,
+      "reason": "tp",
+      "time": "08:44:58"
+    },
+    {
+      "code": "069500",
+      "name": "KODEX 200",
+      "action": "buy",
+      "qty": 230,
+      "price": 43200,
+      "time": "08:44:58"
+    },
+    {
+      "code": "069500",
+      "name": "KODEX 200",
+      "action": "sell",
+      "qty": 230,
+      "price": 43050,
+      "buy_price": 43200,
+      "pnl_amt": -34500,
+      "pnl_pct": -0.35,
+      "reason": "sl",
+      "time": "08:44:58"
+    },
+    {
+      "code": "229200",
+      "name": "KODEX 코스닥150",
+      "action": "buy",
+      "qty": 310,
+      "price": 6480,
+      "time": "08:44:58"
+    },
+    {
+      "code": "229200",
+      "name": "KODEX 코스닥150",
+      "action": "sell",
+      "qty": 310,
+      "price": 6650,
+      "buy_price": 6480,
+      "pnl_amt": 52700,
+      "pnl_pct": 2.62,
+      "reason": "eod",
+      "time": "08:44:58"
+    },
+    {
+      "code": "069500",
+      "name": "KODEX 200",
+      "action": "buy",
+      "qty": 1,
+      "price": 151490,
+      "time": "09:10:51"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "buy",
+      "qty": 2,
+      "price": 151950,
+      "time": "09:12:05"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 2,
+      "price": 150870,
+      "buy_price": 151950,
+      "pnl_amt": -2160,
+      "pnl_pct": -0.71,
+      "reason": "sl",
+      "time": "09:17:32"
+    }
+  ],
+  "summary": {
+    "strategy": "GapFollow(gap≥0.3%, MA20, TP=2.0%, SL=-1.5%)",
+    "trade_count": 8,
+    "win": 6,
+    "lose": 2,
+    "win_rate": 75.0,
+    "total_pnl_amt": 137680,
+    "total_pnl_pct": 0.76,
+    "cash_start": 18200000,
+    "cash_end": 18268840,
+    "best_trade": {
+      "code": "233740",
+      "name": "KODEX 코스닥150레버리지",
+      "action": "sell",
+      "qty": 112,
+      "price": 7620,
+      "buy_price": 7350,
+      "pnl_amt": 30240,
+      "pnl_pct": 3.67,
+      "reason": "tp",
+      "time": "08:44:30"
+    },
+    "worst_trade": {
+      "code": "069500",
+      "name": "KODEX 200",
+      "action": "sell",
+      "qty": 230,
+      "price": 43050,
+      "buy_price": 43200,
+      "pnl_amt": -34500,
+      "pnl_pct": -0.35,
+      "reason": "sl",
+      "time": "08:44:30"
+    }
+  }
+}
