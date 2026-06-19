@@ -181,6 +181,46 @@ select{background:#020617;border:1px solid #1e3a5f;color:#e2e8f0;padding:8px 12p
 .status-on{color:var(--ng);font-weight:700;}
 .status-off{color:#475569;font-weight:700;}
 
+/* AI HARNESS TAB */
+#tab4{background:#0f172a;min-height:calc(100vh - 53px);padding:24px;}
+.harness-pipeline{display:flex;align-items:center;gap:0;margin-bottom:24px;overflow-x:auto;padding-bottom:8px;}
+.pipeline-node{background:#0a1628;border:1px solid #1e3a5f;border-radius:12px;padding:14px 16px;min-width:150px;flex-shrink:0;text-align:center;}
+.pipeline-node.orch{border-color:rgba(0,212,255,.6);box-shadow:0 0 18px rgba(0,212,255,.15);}
+.pipeline-node.analyst{border-color:rgba(0,255,136,.4);}
+.pipeline-node.trader{border-color:rgba(191,95,255,.4);}
+.pipeline-node.guard{border-color:rgba(255,107,53,.4);}
+.pipeline-node.trade{border-color:rgba(245,158,11,.4);}
+.pipeline-arrow{color:#1e3a5f;font-size:20px;padding:0 6px;flex-shrink:0;}
+.pipeline-icon{font-size:22px;margin-bottom:6px;}
+.pipeline-label{font-size:12px;font-weight:700;margin-bottom:3px;}
+.pipeline-sub{font-size:10px;color:#475569;}
+.agent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px;}
+.agent-card{background:#0a1628;border:1px solid #1e293b;border-radius:14px;padding:20px;}
+.agent-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.agent-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.agent-name{font-size:14px;font-weight:800;color:#e2e8f0;}
+.agent-role{font-size:11px;color:#64748b;margin-top:2px;}
+.agent-skill-badge{display:inline-flex;align-items:center;gap:5px;background:#0d1f35;border:1px solid #1e3a5f;color:var(--nb);font-size:10px;font-weight:700;padding:3px 9px;border-radius:8px;margin-bottom:12px;}
+.agent-io{font-size:11px;color:#94a3b8;line-height:1.9;background:#020617;border-radius:8px;padding:10px 12px;}
+.agent-io .io-label{color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:.6px;}
+.agent-io code{background:#0d1f35;color:var(--np);padding:1px 5px;border-radius:4px;font-size:10px;}
+.trigger-section{margin-bottom:24px;}
+.trigger-card{background:#0a1628;border:1px solid #1e293b;border-radius:14px;overflow:hidden;margin-bottom:16px;}
+.trigger-header{padding:14px 20px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px;}
+.trigger-skill-name{font-size:13px;font-weight:700;color:#e2e8f0;}
+.trigger-skill-desc{font-size:11px;color:#64748b;margin-top:2px;}
+.trigger-table{width:100%;border-collapse:collapse;}
+.trigger-table th{padding:9px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#475569;background:#0d1f35;text-align:left;}
+.trigger-table td{padding:9px 16px;font-size:12px;border-bottom:1px solid #0f1f33;vertical-align:top;}
+.trigger-table tr:last-child td{border-bottom:none;}
+.trigger-table tr:hover td{background:#0d2a4a;}
+.trigger-example{color:#e2e8f0;}
+.trigger-purpose{color:#64748b;font-size:11px;}
+.boundary-table{width:100%;border-collapse:collapse;font-size:12px;}
+.boundary-table th{padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#475569;background:#0d1f35;text-align:left;}
+.boundary-table td{padding:9px 14px;border-bottom:1px solid #0f1f33;}
+.boundary-table tr:last-child td{border-bottom:none;}
+
 /* TOOLTIP */
 .info-btn{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid #475569;color:#64748b;font-size:9px;font-weight:700;cursor:pointer;background:transparent;flex-shrink:0;font-family:serif;font-style:italic;line-height:1;}
 .info-btn:hover{border-color:var(--nb);color:var(--nb);background:rgba(0,212,255,.1);}
@@ -236,6 +276,7 @@ canvas{max-width:100%;}
   <button class="tab-btn active" onclick="switchTab('tab1',this)" id="tabBtn1"><i class="fas fa-filter"></i> 스크리너</button>
   <button class="tab-btn" onclick="switchTab('tab2',this)" id="tabBtn2"><i class="fas fa-chart-line"></i> 상세 분석</button>
   <button class="tab-btn" onclick="switchTab('tab3',this)" id="tabBtn3"><i class="fas fa-robot"></i> 매매 전략</button>
+  <button class="tab-btn" onclick="switchTab('tab4',this)" id="tabBtn4"><i class="fas fa-network-wired"></i> AI 하네스</button>
   <div class="data-meta">
     <div class="live-dot offline" id="live-dot"></div>
     <span class="src-badge" id="data-src-badge">Mock Data</span>
@@ -865,6 +906,317 @@ canvas{max-width:100%;}
       <div class="formula-line" style="color:#475569;"># 2. strategy_selector.py 에 import + 조건 삽입</div>
       <div class="formula-line"><span class="kw">from</span> strategy_xxx <span class="kw">import</span> <span class="val">MyStrategy</span></div>
       <div class="formula-line"><span class="kw">if</span> &lt;조건&gt;: strategy <span class="op">=</span> <span class="val">MyStrategy</span>(...)</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== TAB 4 ===================== -->
+<div id="tab4" class="tab-panel">
+
+  <!-- 헤더 -->
+  <div style="margin-bottom:24px;">
+    <h1 style="font-size:22px;font-weight:800;color:#e2e8f0;margin-bottom:6px;">
+      <i class="fas fa-network-wired" style="color:var(--nb);margin-right:10px;"></i>AI 에이전트 하네스 · 구성 &amp; 트리거 가이드
+    </h1>
+    <div style="font-size:13px;color:#64748b;">Claude Code 에이전트 팀 기반 자동매매 보조 시스템 · <code style="background:#020617;color:var(--np);padding:1px 6px;border-radius:4px;">.claude/agents/</code> + <code style="background:#020617;color:var(--np);padding:1px 6px;border-radius:4px;">.claude/skills/</code></div>
+  </div>
+
+  <!-- 파이프라인 다이어그램 -->
+  <div class="strat-card-full">
+    <div class="strat-title"><i class="fas fa-sitemap"></i> 에이전트 파이프라인</div>
+    <div style="font-size:11px;color:#64748b;margin-bottom:16px;">요청 유형에 따라 필요한 Phase만 선택 실행 · 코드 수정 없는 분석만이면 Phase 1·1-B만</div>
+    <div class="harness-pipeline">
+      <div class="pipeline-node orch">
+        <div class="pipeline-icon">🎯</div>
+        <div class="pipeline-label" style="color:var(--nb);">etf-trading</div>
+        <div class="pipeline-sub">오케스트레이터<br>파이프라인 조율</div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
+        <div class="pipeline-node analyst" style="min-width:160px;">
+          <div class="pipeline-icon">📊</div>
+          <div class="pipeline-label" style="color:var(--ng);">MarketAnalyst</div>
+          <div class="pipeline-sub">시장 지표 분석<br>전략 선택 근거</div>
+        </div>
+        <div class="pipeline-node trade" style="min-width:160px;">
+          <div class="pipeline-icon">📋</div>
+          <div class="pipeline-label" style="color:#f59e0b;">TradeAnalyst</div>
+          <div class="pipeline-sub">로그 분석<br>수정 권고 도출</div>
+        </div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-node trader">
+        <div class="pipeline-icon">🔧</div>
+        <div class="pipeline-label" style="color:var(--np);">StrategyEngineer</div>
+        <div class="pipeline-sub">전략 코드<br>작성·수정</div>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-node guard">
+        <div class="pipeline-icon">🛡️</div>
+        <div class="pipeline-label" style="color:var(--no);">RiskGuard</div>
+        <div class="pipeline-sub">리스크 검증<br>PASS/WARN/BLOCK</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-size:11px;">
+      <div style="background:#020617;border-radius:8px;padding:10px 12px;border-left:2px solid var(--nb);">
+        <div style="color:#64748b;margin-bottom:4px;">Phase 0</div>
+        <div style="color:#94a3b8;">컨텍스트 확인<br>초기/후속/부분 재실행 판별</div>
+      </div>
+      <div style="background:#020617;border-radius:8px;padding:10px 12px;border-left:2px solid var(--ng);">
+        <div style="color:#64748b;margin-bottom:4px;">Phase 1 · 1-B</div>
+        <div style="color:#94a3b8;">시장 분석 + 로그 분석<br>(요청 시 병렬 실행)</div>
+      </div>
+      <div style="background:#020617;border-radius:8px;padding:10px 12px;border-left:2px solid var(--np);">
+        <div style="color:#64748b;margin-bottom:4px;">Phase 2 (조건부)</div>
+        <div style="color:#94a3b8;">코드 변경 요청 있을 때만<br>strategy_*.py 수정</div>
+      </div>
+      <div style="background:#020617;border-radius:8px;padding:10px 12px;border-left:2px solid var(--no);">
+        <div style="color:#64748b;margin-bottom:4px;">Phase 3 (조건부)</div>
+        <div style="color:#94a3b8;">Phase 2 실행 시 필수<br>BLOCK 시 즉시 중단</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 에이전트 카드 -->
+  <div style="font-size:13px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;"><i class="fas fa-users" style="color:var(--nb);margin-right:8px;"></i>에이전트 정의</div>
+  <div class="agent-grid">
+
+    <!-- MarketAnalyst -->
+    <div class="agent-card" style="border-color:rgba(0,255,136,.25);">
+      <div class="agent-header">
+        <div class="agent-icon" style="background:rgba(0,255,136,.15);color:var(--ng);">📊</div>
+        <div>
+          <div class="agent-name">MarketAnalyst</div>
+          <div class="agent-role">시장 지표 분석 · 전략 선택 근거 생성</div>
+        </div>
+      </div>
+      <div class="agent-skill-badge"><i class="fas fa-puzzle-piece" style="font-size:9px;"></i> market-analysis</div>
+      <div class="agent-io">
+        <div class="io-label">입력</div>
+        <div style="margin-bottom:6px;">KODEX 200 OHLCV · <code>trade_logger.load_history(10)</code></div>
+        <div class="io-label">출력</div>
+        <div><code>_workspace/01_market_analysis.md</code><br>갭·변동성·MA5/MA20·추세 → 전략 선택 이유</div>
+      </div>
+    </div>
+
+    <!-- TradeAnalyst -->
+    <div class="agent-card" style="border-color:rgba(245,158,11,.25);">
+      <div class="agent-header">
+        <div class="agent-icon" style="background:rgba(245,158,11,.15);color:#f59e0b;">📋</div>
+        <div>
+          <div class="agent-name">TradeAnalyst</div>
+          <div class="agent-role">체결 로그 분석 · 전략 수정 권고 도출</div>
+        </div>
+      </div>
+      <div class="agent-skill-badge"><i class="fas fa-puzzle-piece" style="font-size:9px;"></i> trade-analysis</div>
+      <div class="agent-io">
+        <div class="io-label">입력</div>
+        <div style="margin-bottom:6px;"><code>trades/YYYYMMDD.json</code> · 날짜 지정 가능</div>
+        <div class="io-label">출력</div>
+        <div><code>_workspace/04_trade_analysis.md</code><br>매도 이유 분포·손익 분포·타이밍·종목 패턴 → 수정 권고</div>
+      </div>
+    </div>
+
+    <!-- StrategyEngineer -->
+    <div class="agent-card" style="border-color:rgba(191,95,255,.25);">
+      <div class="agent-header">
+        <div class="agent-icon" style="background:rgba(191,95,255,.15);color:var(--np);">🔧</div>
+        <div>
+          <div class="agent-name">StrategyEngineer</div>
+          <div class="agent-role">전략 코드 작성 · 수정 · strategy_selector 연동</div>
+        </div>
+      </div>
+      <div class="agent-skill-badge"><i class="fas fa-puzzle-piece" style="font-size:9px;"></i> strategy-dev</div>
+      <div class="agent-io">
+        <div class="io-label">입력</div>
+        <div style="margin-bottom:6px;">Phase 1/1-B 산출물 + 사용자 요청</div>
+        <div class="io-label">출력</div>
+        <div>수정된 <code>strategy_*.py</code> · <code>strategy_selector.py</code><br><code>_workspace/02_strategy_changes.md</code></div>
+      </div>
+    </div>
+
+    <!-- RiskGuard -->
+    <div class="agent-card" style="border-color:rgba(255,107,53,.25);">
+      <div class="agent-header">
+        <div class="agent-icon" style="background:rgba(255,107,53,.15);color:var(--no);">🛡️</div>
+        <div>
+          <div class="agent-name">RiskGuard</div>
+          <div class="agent-role">실계좌 안전 검증 · PASS/WARN/BLOCK 판정</div>
+        </div>
+      </div>
+      <div class="agent-skill-badge"><i class="fas fa-puzzle-piece" style="font-size:9px;"></i> risk-check</div>
+      <div class="agent-io">
+        <div class="io-label">검증 항목</div>
+        <div style="margin-bottom:6px;"><code>kis_api</code> 직접 호출 · TP/SL 범위 · BUY_PERCENT · 총 투자 비중</div>
+        <div class="io-label">출력</div>
+        <div><code>_workspace/03_risk_report.md</code><br>BLOCK 시 즉시 사용자 보고 후 중단</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 트리거 목록 -->
+  <div style="font-size:13px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;"><i class="fas fa-bolt" style="color:var(--nb);margin-right:8px;"></i>스킬 트리거 목록</div>
+  <div class="trigger-section">
+
+    <!-- etf-trading -->
+    <div class="trigger-card">
+      <div class="trigger-header" style="background:linear-gradient(90deg,rgba(0,212,255,.08),transparent);">
+        <div class="agent-icon" style="background:rgba(0,212,255,.15);color:var(--nb);width:30px;height:30px;border-radius:8px;font-size:14px;">🎯</div>
+        <div>
+          <div class="trigger-skill-name">etf-trading <span style="font-size:10px;font-weight:400;color:#475569;margin-left:6px;">오케스트레이터</span></div>
+          <div class="trigger-skill-desc">전체 파이프라인 진입점 — 분석+수정+검증을 한 번에</div>
+        </div>
+      </div>
+      <table class="trigger-table">
+        <thead><tr><th>예시 표현</th><th>실행 Phase</th></tr></thead>
+        <tbody>
+          <tr><td class="trigger-example">"오늘 매매 준비해줘"</td><td class="trigger-purpose">Phase 1 → 4 (전체)</td></tr>
+          <tr><td class="trigger-example">"하네스 돌려줘" · "하네스 실행"</td><td class="trigger-purpose">Phase 1 → 4 (전체)</td></tr>
+          <tr><td class="trigger-example">"로그 보고 전략 수정해줘"</td><td class="trigger-purpose">Phase 1-B → 2 → 3 → 4</td></tr>
+          <tr><td class="trigger-example">"매매 결과 기반으로 개선해줘"</td><td class="trigger-purpose">Phase 1-B → 2 → 3 → 4</td></tr>
+          <tr><td class="trigger-example">"다시 분석해줘" · "재실행"</td><td class="trigger-purpose">_workspace 기반 재실행</td></tr>
+          <tr><td class="trigger-example">"자동매매 점검해줘"</td><td class="trigger-purpose">Phase 1 → 4</td></tr>
+          <tr><td class="trigger-example">"전략 수정해줘"</td><td class="trigger-purpose">Phase 1 → 2 → 3 → 4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- market-analysis -->
+    <div class="trigger-card">
+      <div class="trigger-header" style="background:linear-gradient(90deg,rgba(0,255,136,.06),transparent);">
+        <div class="agent-icon" style="background:rgba(0,255,136,.15);color:var(--ng);width:30px;height:30px;border-radius:8px;font-size:14px;">📊</div>
+        <div>
+          <div class="trigger-skill-name">market-analysis <span style="font-size:10px;font-weight:400;color:#475569;margin-left:6px;">MarketAnalyst</span></div>
+          <div class="trigger-skill-desc">KODEX 200 지표 계산 · 전략 선택 근거 — 코드 수정 없음</div>
+        </div>
+      </div>
+      <table class="trigger-table">
+        <thead><tr><th>예시 표현</th><th>목적</th></tr></thead>
+        <tbody>
+          <tr><td class="trigger-example">"오늘 어떤 전략 쓸까?"</td><td class="trigger-purpose">전략 선택</td></tr>
+          <tr><td class="trigger-example">"시장 분석해줘" · "장전 분석 돌려줘"</td><td class="trigger-purpose">지표 계산</td></tr>
+          <tr><td class="trigger-example">"오늘 장세 어때?" · "갭업이야?"</td><td class="trigger-purpose">갭/추세 확인</td></tr>
+          <tr><td class="trigger-example">"MA5 기울기 알려줘" · "오늘 추세 확인해줘"</td><td class="trigger-purpose">지표 조회</td></tr>
+          <tr><td class="trigger-example">"최근 성과 좋은 전략 뭐야?"</td><td class="trigger-purpose">히스토리 참조</td></tr>
+          <tr><td class="trigger-example">"전략 선택 근거 설명해줘"</td><td class="trigger-purpose">선택 이유 분석</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- trade-analysis -->
+    <div class="trigger-card">
+      <div class="trigger-header" style="background:linear-gradient(90deg,rgba(245,158,11,.06),transparent);">
+        <div class="agent-icon" style="background:rgba(245,158,11,.15);color:#f59e0b;width:30px;height:30px;border-radius:8px;font-size:14px;">📋</div>
+        <div>
+          <div class="trigger-skill-name">trade-analysis <span style="font-size:10px;font-weight:400;color:#475569;margin-left:6px;">TradeAnalyst</span></div>
+          <div class="trigger-skill-desc">trades/YYYYMMDD.json 분석 · 패턴 파악 · 수정 권고</div>
+        </div>
+      </div>
+      <table class="trigger-table">
+        <thead><tr><th>예시 표현</th><th>목적</th></tr></thead>
+        <tbody>
+          <tr><td class="trigger-example">"오늘 매매 결과 분석해줘"</td><td class="trigger-purpose">오늘 로그 전체 분석</td></tr>
+          <tr><td class="trigger-example">"왜 손절이 많았어?"</td><td class="trigger-purpose">매도 이유 분포 분석</td></tr>
+          <tr><td class="trigger-example">"어떤 종목이 문제였어?"</td><td class="trigger-purpose">종목별 패턴 분석</td></tr>
+          <tr><td class="trigger-example">"매매 패턴 분석해줘"</td><td class="trigger-purpose">타이밍·종목 패턴</td></tr>
+          <tr><td class="trigger-example">"로그 기반으로 개선 근거 뽑아줘"</td><td class="trigger-purpose">수정 권고 생성</td></tr>
+          <tr><td class="trigger-example">"20260618 로그 분석해줘"</td><td class="trigger-purpose">날짜 지정 분석</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- strategy-dev -->
+    <div class="trigger-card">
+      <div class="trigger-header" style="background:linear-gradient(90deg,rgba(191,95,255,.06),transparent);">
+        <div class="agent-icon" style="background:rgba(191,95,255,.15);color:var(--np);width:30px;height:30px;border-radius:8px;font-size:14px;">🔧</div>
+        <div>
+          <div class="trigger-skill-name">strategy-dev <span style="font-size:10px;font-weight:400;color:#475569;margin-left:6px;">StrategyEngineer</span></div>
+          <div class="trigger-skill-desc">수정 동사(바꿔줘/만들어줘/추가해줘)가 있을 때만 트리거</div>
+        </div>
+      </div>
+      <table class="trigger-table">
+        <thead><tr><th>예시 표현</th><th>목적</th></tr></thead>
+        <tbody>
+          <tr><td class="trigger-example">"볼린저밴드 전략 만들어줘"</td><td class="trigger-purpose">신규 전략 생성</td></tr>
+          <tr><td class="trigger-example">"손절 -2%로 바꿔줘"</td><td class="trigger-purpose">파라미터 수정</td></tr>
+          <tr><td class="trigger-example">"should_buy에 거래량 조건 추가해줘"</td><td class="trigger-purpose">로직 수정</td></tr>
+          <tr><td class="trigger-example">"k값 0.6으로 올려줘" · "TP 2.5%로 수정해줘"</td><td class="trigger-purpose">파라미터 수정</td></tr>
+          <tr><td class="trigger-example">"strategy_selector에 새 전략 연결해줘"</td><td class="trigger-purpose">selector 연동</td></tr>
+          <tr><td class="trigger-example">"GapFollow 손절 조건 강화해줘"</td><td class="trigger-purpose">로직 수정</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- risk-check -->
+    <div class="trigger-card">
+      <div class="trigger-header" style="background:linear-gradient(90deg,rgba(255,107,53,.06),transparent);">
+        <div class="agent-icon" style="background:rgba(255,107,53,.15);color:var(--no);width:30px;height:30px;border-radius:8px;font-size:14px;">🛡️</div>
+        <div>
+          <div class="trigger-skill-name">risk-check <span style="font-size:10px;font-weight:400;color:#475569;margin-left:6px;">RiskGuard</span></div>
+          <div class="trigger-skill-desc">수정 실행이 아닌 가능 여부 판단·안전성 확인 시 트리거</div>
+        </div>
+      </div>
+      <table class="trigger-table">
+        <thead><tr><th>예시 표현</th><th>목적</th></tr></thead>
+        <tbody>
+          <tr><td class="trigger-example">"이 전략 실계좌에 써도 돼?"</td><td class="trigger-purpose">안전성 확인</td></tr>
+          <tr><td class="trigger-example">"손절 -3%로 올려도 괜찮아?"</td><td class="trigger-purpose">파라미터 가능 여부</td></tr>
+          <tr><td class="trigger-example">"BUY_PERCENT 0.3으로 올려도 돼?"</td><td class="trigger-purpose">투자 비중 판단</td></tr>
+          <tr><td class="trigger-example">"리스크 점검해줘" · "전략 검증해줘"</td><td class="trigger-purpose">전체 검증</td></tr>
+          <tr><td class="trigger-example">"kis_api 직접 호출 있는지 확인해줘"</td><td class="trigger-purpose">코드 안전 확인</td></tr>
+          <tr><td class="trigger-example">"실계좌 적용 전에 리뷰해줘"</td><td class="trigger-purpose">사전 검증</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- 경계 구분 -->
+  <div class="strat-card-full" style="margin-bottom:0;">
+    <div class="strat-title"><i class="fas fa-code-compare"></i> 헷갈리기 쉬운 경계 구분</div>
+    <div style="overflow-x:auto;">
+      <table class="boundary-table">
+        <thead><tr><th>표현</th><th>트리거 스킬</th><th>이유</th></tr></thead>
+        <tbody>
+          <tr>
+            <td style="color:#e2e8f0;">"손절 -2%가 적당해?"</td>
+            <td><span style="color:var(--no);font-weight:700;">risk-check</span></td>
+            <td style="color:#64748b;">가능 여부 판단 → 검증</td>
+          </tr>
+          <tr>
+            <td style="color:#e2e8f0;">"손절 -2%로 바꿔줘"</td>
+            <td><span style="color:var(--np);font-weight:700;">strategy-dev</span></td>
+            <td style="color:#64748b;">수정 실행 동사 → 코드 수정</td>
+          </tr>
+          <tr>
+            <td style="color:#e2e8f0;">"오늘 어떤 전략?"</td>
+            <td><span style="color:var(--ng);font-weight:700;">market-analysis</span></td>
+            <td style="color:#64748b;">분석만, 코드 수정 없음</td>
+          </tr>
+          <tr>
+            <td style="color:#e2e8f0;">"오늘 전략 바꿔줘"</td>
+            <td><span style="color:var(--np);font-weight:700;">strategy-dev</span></td>
+            <td style="color:#64748b;">"바꿔줘" → 코드 수정</td>
+          </tr>
+          <tr>
+            <td style="color:#e2e8f0;">"로그 분석해줘"</td>
+            <td><span style="color:#f59e0b;font-weight:700;">trade-analysis</span></td>
+            <td style="color:#64748b;">분석만 요청</td>
+          </tr>
+          <tr>
+            <td style="color:#e2e8f0;">"로그 보고 전략 수정해줘"</td>
+            <td><span style="color:var(--nb);font-weight:700;">etf-trading</span></td>
+            <td style="color:#64748b;">분석+수정 → 오케스트레이터</td>
+          </tr>
+          <tr>
+            <td style="color:#e2e8f0;">"harness.py 코드 설명해줘"</td>
+            <td><span style="color:#475569;font-weight:700;">직접 응답</span></td>
+            <td style="color:#64748b;">단순 파일 설명 → 스킬 불필요</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
