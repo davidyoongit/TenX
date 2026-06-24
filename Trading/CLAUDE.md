@@ -97,3 +97,19 @@ harness.py
 - `kis_api.sell()` 은 실계좌 즉시 주문 — 테스트 시 호출 금지
 - ORB 전략은 `harness.py` 매수 루프에서 `strategy.update_range()` 를 자동 호출함
 - 각 전략의 `_cache`는 당일 OHLCV 메모리 캐시 — 자정 넘어 프로세스 유지 시 수동 초기화 필요
+
+---
+
+## 하네스: ETF 자동매매
+
+**목표:** 시장 분석 → 전략 선택 → 코드 수정 → 리스크 검증을 에이전트 팀으로 자동화
+
+**트리거:** ETF 자동매매 관련 작업(시장 분석, 전략 수정, 하네스 실행 등) 요청 시 `etf-trading` 스킬을 사용하라. 단순 코드 질문은 직접 응답 가능.
+
+**변경 이력:**
+| 날짜 | 변경 내용 | 대상 | 사유 |
+|------|----------|------|------|
+| 2026-06-19 | 초기 구성 | 전체 | - |
+| 2026-06-19 | 트리거 description 보강 | 스킬 4개 | 취약 쿼리 오탐 방지 (경계 조건 명시) |
+| 2026-06-19 | TradeAnalyst 에이전트 추가 | agents/trade-analyst.md, skills/trade-analysis/, etf-trading 오케스트레이터 | 로그 기반 전략 수정 기능 공백 보완 |
+| 2026-06-19 | DailyReporter 에이전트 추가 | agents/daily-reporter.md, skills/daily-report/, etf-trading 오케스트레이터 Phase 5, index.html 탭 4·5 추가 | 장 마감 후 매매 일지 자동 기록 기능 추가 |

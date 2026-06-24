@@ -110,6 +110,29 @@ def get_asking_price(code: str) -> tuple[int, int, int]:
     )
 
 
+def get_current_price(code: str) -> dict:
+    """현재가 + 등락률 조회. {price, changePercent} 반환"""
+    resp = requests.get(
+        f"{BASE_URL}/uapi/domestic-stock/v1/quotations/inquire-price",
+        params={"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": code},
+        headers={
+            "Content-Type": "application/json",
+            "authorization": _access_token,
+            "appKey": KEY_ISA,
+            "appSecret": SECRET_ISA,
+            "tr_id": "FHKST01010100",
+        },
+        timeout=10,
+    )
+    if resp.status_code != 200:
+        raise RuntimeError(f"get_current_price {code}: HTTP {resp.status_code}")
+    d = resp.json().get('output', {})
+    return {
+        "price":         int(d.get('stck_prpr', 0)),
+        "changePercent": float(d.get('prdy_ctrt', 0)),
+    }
+
+
 def get_ohlcv(code: str) -> pd.DataFrame:
     """일봉 OHLCV DataFrame (index=date, columns=open/high/low/close)"""
     resp = broker.fetch_ohlcv(symbol=code, timeframe='D', adj_price=True)

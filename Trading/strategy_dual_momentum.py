@@ -31,10 +31,10 @@ class DualMomentum(Strategy):
         self,
         symbol_list: list[str] = None,
         abs_days: int = 5,
-        abs_pct: float = 1.0,
+        abs_pct: float = 0.5,
         top_n: int = 3,
         ma_period: int = 20,
-        take_profit_pct: float = 2.5,
+        take_profit_pct: float = 1.5,
         stop_loss_pct: float = -1.5,
     ):
         self.symbol_list     = symbol_list or DEFAULT_SYMBOL_LIST

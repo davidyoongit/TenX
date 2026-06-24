@@ -23,12 +23,14 @@ class GapFollow(Strategy):
         take_profit_pct: float = 2.0,
         stop_loss_pct: float = -1.5,
         exit_below_open: bool = True, # 현재가 < 시가 시 청산
+        exclude_codes: set = None,    # GapFollow 제외 종목 (비레버리지 ETF 등)
     ):
         self.gap_pct         = gap_pct
         self.ma_period       = ma_period
         self.take_profit_pct = take_profit_pct
         self.stop_loss_pct   = stop_loss_pct
         self.exit_below_open = exit_below_open
+        self.exclude_codes   = exclude_codes or set()
         self._cache: dict[str, dict] = {}
 
     # ── 내부 헬퍼 ────────────────────────────
@@ -72,6 +74,9 @@ class GapFollow(Strategy):
     # ── 인터페이스 구현 ───────────────────────
 
     def should_buy(self, code: str, current_price: int, ask_price: int) -> bool:
+        if code in self.exclude_codes:
+            return False
+
         today_open, prev_close = self._today_open_and_prev_close(code)
         gap = (today_open - prev_close) / prev_close * 100
 
@@ -103,6 +108,7 @@ class GapFollow(Strategy):
         return False
 
     def describe(self) -> str:
+        excl = f", excl={sorted(self.exclude_codes)}" if self.exclude_codes else ""
         return (f"GapFollow(gap≥{self.gap_pct}%, MA{self.ma_period}, "
                 f"TP={self.take_profit_pct}%, SL={self.stop_loss_pct}%, "
-                f"exit_below_open={self.exit_below_open})")
+                f"exit_below_open={self.exit_below_open}{excl})")

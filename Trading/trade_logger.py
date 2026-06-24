@@ -43,16 +43,19 @@ def set_strategy(strategy_name: str) -> None:
     _save(data)
 
 
-def log_buy(code: str, name: str, qty: int, price: int) -> None:
-    data = _load()
-    data["trades"].append({
+def log_buy(code: str, name: str, qty: int, price: int, strategy: str = None) -> None:
+    data  = _load()
+    entry = {
         "code":   code,
         "name":   name,
         "action": "buy",
         "qty":    qty,
         "price":  price,
         "time":   datetime.now().strftime("%H:%M:%S"),
-    })
+    }
+    if strategy:
+        entry["strategy"] = strategy
+    data["trades"].append(entry)
     _save(data)
 
 
