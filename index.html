@@ -268,24 +268,17 @@ canvas{max-width:100%;}
   <button id="api-reset-btn" onclick="resetApiKey()" style="display:none;background:transparent;border:1px solid #334155;color:#64748b;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:12px;">
     <i class="fas fa-rotate-left"></i> 키 변경
   </button>
-  <!-- AV separator -->
+  <!-- KR separator -->
   <div style="width:1px;height:44px;background:#1e293b;flex-shrink:0;margin:0 6px;"></div>
   <i class="fas fa-won-sign" style="color:#4ade80;font-size:18px;flex-shrink:0;"></i>
   <div style="flex-shrink:0;">
-    <div style="font-size:12px;font-weight:700;color:#4ade80;margin-bottom:2px;">한국주식 API 키 <span style="font-weight:400;color:#64748b;">(Alpha Vantage)</span></div>
-    <div class="api-hint">무료 발급: <a href="https://www.alphavantage.co/support/#api-key" target="_blank">alphavantage.co</a> · 무료 25회/일</div>
+    <div style="font-size:12px;font-weight:700;color:#4ade80;margin-bottom:2px;">한국주식 실시간 시세</div>
+    <div class="api-hint">Yahoo Finance · API 키 불필요 · 자동 로딩</div>
   </div>
-  <input type="password" id="av-key-input" placeholder="AV API 키 입력..." maxlength="20"
-    style="background:#020617;border:1px solid #4ade80;color:#e2e8f0;padding:8px 14px;border-radius:8px;font-size:14px;width:230px;outline:none;font-family:monospace;">
-  <button id="av-save-btn" onclick="saveAVKey()" disabled
-    style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#020617;padding:8px 18px;border-radius:8px;font-weight:800;border:none;cursor:pointer;font-size:13px;white-space:nowrap;opacity:0.5;">
-    <i class="fas fa-plug"></i> 연결
+  <div id="kr-status" style="font-size:12px;color:#64748b;padding:4px 10px;background:#0d1f35;border-radius:6px;border:1px solid #1e293b;white-space:nowrap;">대기 중...</div>
+  <button onclick="refreshKRPrices()" style="background:transparent;border:1px solid #4ade80;color:#4ade80;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:12px;" title="한국주식 시세 새로고침">
+    <i class="fas fa-rotate-right"></i>
   </button>
-  <div id="av-status" class="api-status" style="display:none;"></div>
-  <button id="av-reset-btn" onclick="resetAVKey()" style="display:none;background:transparent;border:1px solid #334155;color:#64748b;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:12px;">
-    <i class="fas fa-rotate-left"></i> 키 변경
-  </button>
-  <div id="av-progress" style="display:none;font-size:11px;color:#64748b;padding:4px 8px;background:#0d1f35;border-radius:6px;border:1px solid #1e293b;white-space:nowrap;min-width:160px;"></div>
 </div>
 
 <!-- TAB BAR -->
@@ -1479,6 +1472,9 @@ function hideTT() { document.getElementById('tt-box').classList.remove('show'); 
 document.addEventListener('scroll', hideTT, true);
 document.addEventListener('click', function(e) { if (!e.target.classList.contains('info-btn')) hideTT(); });
 
+// 페이지 로드 시 한국주식 시세 자동 시작
+window.addEventListener('load', function() { setTimeout(fetchKRPrices, 800); });
+
 function iB(key) {
   return '<button class="info-btn" onmouseenter="showTT(\'' + key + '\',this)" onmouseleave="hideTT()" onclick="event.stopPropagation()">i</button>';
 }
@@ -1546,11 +1542,8 @@ function resetApiKey() {
 }
 
 // ================================================================
-// ALPHA VANTAGE — 한국주식 실시간 시세
+// YAHOO FINANCE — 한국주식 실시간 시세 (API 키 불필요)
 // ================================================================
-var AV_API_KEY = '';
-var AV_BASE = 'https://www.alphavantage.co/query';
-var krApiOk = false;
 var krLoadAbort = false;
 
 // KOSPI=KS, KOSDAQ=KQ
@@ -1562,11 +1555,12 @@ var KR_EXCHANGE_SUFFIX = {
   '042700':'KQ','240810':'KQ','196170':'KQ'
 };
 
-function setAVProgress(text) {
-  var el = document.getElementById('av-progress');
+function setKRStatus(text, state) {
+  var el = document.getElementById('kr-status');
   if (!el) return;
-  el.style.display = text ? 'block' : 'none';
   el.textContent = text;
+  el.style.color = state === 'ok' ? '#22c55e' : state === 'err' ? '#ef4444' : '#64748b';
+  el.style.borderColor = state === 'ok' ? '#22c55e' : state === 'err' ? '#ef4444' : '#1e293b';
 }
 
 function saveKRCache(prices) {
@@ -1580,84 +1574,36 @@ function loadKRCache() {
   } catch(e) { return null; }
 }
 
-document.getElementById('av-key-input').addEventListener('input', function() {
-  var ok = this.value.trim().length >= 5;
-  var btn = document.getElementById('av-save-btn');
-  btn.disabled = !ok; btn.style.opacity = ok ? '1' : '0.5';
-});
-document.getElementById('av-key-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') saveAVKey();
-});
-
-async function saveAVKey() {
-  var val = document.getElementById('av-key-input').value.trim();
-  if (!val) return;
-  var btn = document.getElementById('av-save-btn');
-  var st  = document.getElementById('av-status');
-  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 확인 중...';
-  st.style.display = 'flex'; st.className = 'api-status loading'; st.textContent = 'API 키 검증 중...';
-  try {
-    var r = await fetch(AV_BASE + '?function=GLOBAL_QUOTE&symbol=005930.KS&apikey=' + val);
-    var d = await r.json();
-    console.log('[AV] 005930.KS 응답:', JSON.stringify(d));
-    if (d.Note) throw new Error('Rate limit — 잠시 후 재시도: ' + d.Note);
-    if (d.Information) throw new Error('API 한도 초과: ' + d.Information);
-    var q = d['Global Quote'];
-    if (!q || Object.keys(q).length === 0) throw new Error('빈 응답 — 심볼(005930.KS) 미지원이거나 키가 만료됨. 콘솔 확인');
-    if (!q['05. price']) throw new Error('가격 데이터 없음 — 응답: ' + JSON.stringify(q));
-    AV_API_KEY = val;
-    var price = Math.round(+q['05. price']);
-    var chgPct = parseFloat((q['10. change percent'] || '0%').replace('%', ''));
-    livePrices['005930'] = Object.assign(livePrices['005930'] || {}, {price: price, changePercent: chgPct});
-    updateFilters();
-    st.className = 'api-status ok';
-    st.innerHTML = '<i class="fas fa-circle-check" style="margin-right:5px;"></i>연결 성공!';
-    btn.innerHTML = '<i class="fas fa-check"></i> 연결됨';
-    btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
-    document.getElementById('av-key-input').classList.add('connected');
-    document.getElementById('av-reset-btn').style.display = 'flex';
-    showToast('한국주식 API 연결', '삼성전자 ₩' + price.toLocaleString('ko-KR') + ' — 전종목 로딩 시작', 'success');
-    fetchKRPrices();
-  } catch(e) {
-    st.className = 'api-status err';
-    st.innerHTML = '<i class="fas fa-circle-xmark" style="margin-right:5px;"></i>' + e.message;
-    btn.disabled = false; btn.innerHTML = '<i class="fas fa-plug"></i> 연결';
-    showToast('AV API 오류', e.message, 'error');
-  }
-}
-
-function resetAVKey() {
-  AV_API_KEY = ''; krApiOk = false; krLoadAbort = true;
-  localStorage.removeItem('kr_price_cache');
-  var inp = document.getElementById('av-key-input');
-  inp.value = ''; inp.classList.remove('connected'); inp.type = 'password';
-  document.getElementById('av-save-btn').innerHTML = '<i class="fas fa-plug"></i> 연결';
-  document.getElementById('av-save-btn').disabled = true;
-  document.getElementById('av-save-btn').style.opacity = '0.5';
-  document.getElementById('av-status').style.display = 'none';
-  document.getElementById('av-reset-btn').style.display = 'none';
-  setAVProgress('');
-}
-
-async function fetchKRQuote(code) {
-  if (!AV_API_KEY) return null;
+async function fetchKRQuoteYF(code) {
   var suffix = KR_EXCHANGE_SUFFIX[code];
   if (!suffix) return null;
+  var symbol = code + '.' + suffix;
+  var directUrl = 'https://query2.finance.yahoo.com/v8/finance/chart/' + symbol + '?interval=1d&range=1d';
+  var proxyUrl  = 'https://corsproxy.io/?' + encodeURIComponent(directUrl);
+  var d;
   try {
-    var r = await fetch(AV_BASE + '?function=GLOBAL_QUOTE&symbol=' + code + '.' + suffix + '&apikey=' + AV_API_KEY);
-    var d = await r.json();
-    if (d.Note || d.Information) return 'rate_limit';
-    var q = d['Global Quote'];
-    if (!q || !q['05. price']) return null;
-    return {
-      price: Math.round(+q['05. price']),
-      changePercent: parseFloat((q['10. change percent'] || '0%').replace('%', ''))
-    };
-  } catch(e) { return null; }
+    var r = await fetch(directUrl, {signal: AbortSignal.timeout(5000)});
+    d = await r.json();
+  } catch(e) {
+    try {
+      var r2 = await fetch(proxyUrl, {signal: AbortSignal.timeout(8000)});
+      d = await r2.json();
+    } catch(e2) {
+      console.warn('[YF] ' + symbol + ' 실패:', e2.message);
+      return null;
+    }
+  }
+  var res = d && d.chart && d.chart.result && d.chart.result[0];
+  if (!res || !res.meta) return null;
+  var meta = res.meta;
+  var price = Math.round(meta.regularMarketPrice || 0);
+  if (!price) return null;
+  var prev = meta.chartPreviousClose || meta.previousClose || price;
+  var chgPct = prev ? parseFloat(((price - prev) / prev * 100).toFixed(2)) : 0;
+  return {price: price, changePercent: chgPct};
 }
 
 async function fetchKRPrices() {
-  if (!AV_API_KEY) return;
   krLoadAbort = false;
 
   // 캐시 확인 (15분 이내면 재사용)
@@ -1666,58 +1612,45 @@ async function fetchKRPrices() {
     Object.keys(cached).forEach(function(t) {
       livePrices[t] = Object.assign(livePrices[t] || {}, cached[t]);
     });
-    krApiOk = true;
     updateFilters();
     var age = Math.round((Date.now() - JSON.parse(localStorage.getItem('kr_price_cache')).ts) / 60000);
-    showToast('KR 캐시 적용', '한국주식 시세 캐시 사용 (' + age + '분 전)', 'success');
-    setAVProgress('');
+    setKRStatus('캐시 (' + age + '분 전)', 'ok');
     return;
   }
 
   var KR_TICKERS = TICKERS.filter(function(t) { return DB[t] && DB[t].market === 'KR'; });
-  var ok = 0;
-  var newPrices = {};
-  var total = KR_TICKERS.length;
-  showToast('한국주식 시세 로딩', total + '개 순차 조회 중 (무료: ~4분 / 유료: ~20초)', 'warning');
+  var ok = 0, total = KR_TICKERS.length, newPrices = {};
+  setKRStatus('로딩 0/' + total + '...');
 
   for (var i = 0; i < total; i++) {
     if (krLoadAbort) break;
     var t = KR_TICKERS[i];
-
-    // 연결 검증 때 이미 받아온 삼성전자는 재사용
-    if (t === '005930' && livePrices[t] && livePrices[t].price) {
-      newPrices[t] = {price: livePrices[t].price, changePercent: livePrices[t].changePercent || 0};
-      ok++;
-      setAVProgress('KR 시세 ' + ok + '/' + total + ' — ' + DB[t].name);
-      continue;
-    }
-
-    setAVProgress('KR 시세 조회 ' + (i + 1) + '/' + total + ' — ' + (DB[t] ? DB[t].name : t));
-    var result = await fetchKRQuote(t);
-
-    if (result === 'rate_limit') {
-      setAVProgress('Rate limit — 60초 대기 중...');
-      await delay(62000);
-      i--; continue;
-    }
+    setKRStatus('로딩 ' + (i + 1) + '/' + total + ' — ' + (DB[t] ? DB[t].name : t));
+    var result = await fetchKRQuoteYF(t);
     if (result) {
       livePrices[t] = Object.assign(livePrices[t] || {}, result);
       newPrices[t] = result;
       ok++;
       updateFilters();
     }
-    if (i < total - 1) await delay(13000); // 13초 간격 = 4.6 req/min (무료 5/min 한도)
+    if (i < total - 1) await delay(300);
   }
 
   if (ok > 0) {
-    krApiOk = true;
     saveKRCache(newPrices);
+    setKRStatus(ok + '/' + total + '개 완료', 'ok');
     showToast('한국주식 완료', ok + '/' + total + '개 시세 적용', 'success');
     updateFilters();
   } else {
-    showToast('한국주식 오류', '시세 조회 실패 — API 키 확인', 'error');
+    setKRStatus('조회 실패', 'err');
+    showToast('한국주식 오류', 'Yahoo Finance 응답 없음', 'error');
   }
-  setAVProgress('');
+}
+
+function refreshKRPrices() {
+  localStorage.removeItem('kr_price_cache');
+  krLoadAbort = true;
+  setTimeout(fetchKRPrices, 100);
 }
 
 // ================================================================
@@ -1794,13 +1727,8 @@ function updateMeta() {
   }
 }
 function refreshPrices() {
-  if (!FINNHUB_API_KEY && !AV_API_KEY) {
-    showToast('API 키 없음', '상단 배너에서 Finnhub 또는 Alpha Vantage 키를 입력해 주세요.', 'warning');
-    return;
-  }
-  localStorage.removeItem('kr_price_cache'); // 강제 새로고침 시 캐시 무효화
   if (FINNHUB_API_KEY) fetchAllPrices();
-  if (AV_API_KEY) fetchKRPrices();
+  refreshKRPrices();
 }
 
 // ================================================================
