@@ -1599,9 +1599,12 @@ async function saveAVKey() {
   try {
     var r = await fetch(AV_BASE + '?function=GLOBAL_QUOTE&symbol=005930.KS&apikey=' + val);
     var d = await r.json();
-    if (d.Note || d.Information) throw new Error('Rate limit — 잠시 후 재시도');
+    console.log('[AV] 005930.KS 응답:', JSON.stringify(d));
+    if (d.Note) throw new Error('Rate limit — 잠시 후 재시도: ' + d.Note);
+    if (d.Information) throw new Error('API 한도 초과: ' + d.Information);
     var q = d['Global Quote'];
-    if (!q || !q['05. price']) throw new Error('응답 없음 — 키를 확인하세요');
+    if (!q || Object.keys(q).length === 0) throw new Error('빈 응답 — 심볼(005930.KS) 미지원이거나 키가 만료됨. 콘솔 확인');
+    if (!q['05. price']) throw new Error('가격 데이터 없음 — 응답: ' + JSON.stringify(q));
     AV_API_KEY = val;
     var price = Math.round(+q['05. price']);
     var chgPct = parseFloat((q['10. change percent'] || '0%').replace('%', ''));
