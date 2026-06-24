@@ -1,0 +1,6 @@
+# 모든 파일 무시
+*
+
+# index.html만 허용
+!index.html
+!.gitignore

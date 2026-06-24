@@ -1,8 +1,0 @@
-쿠팡 파트너스 API Access Key
-039cd605-9bb6-42da-8049-b4a694305390
-Secret Key
-050a691c2384b885eb6ba9fb9daf52fba9b2b0ba
-Authorization
-CEA algorithm=HmacSHA256, access-key=039cd605-9bb6-42da-8049-b4a694305390, signed-date=241106T144211Z, signature=b18baacaba18cbb3cbde2c82f4a554331f5cabeda4aaca1e90c9d78f11021a9b
-
-서울시 중구 을지로15길 32
