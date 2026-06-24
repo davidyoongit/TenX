@@ -1,0 +1,53 @@
+{
+  "date": "20260624",
+  "strategy": "Multi | GapFollow(gap≥0.3%, MA20, TP=2.0%, SL=-1.5%, exit_below_open=True) | GapFollow(gap≥0.3%, MA20, TP=2.0%, SL=-1.5%, exit_below_open=True, excl=['069500', '148020']) | RSIOversoldBounce(period=14, oversold=35, overbought=70.0, TP=1.5%, SL=-1.0%)",
+  "trades": [
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 136697,
+      "buy_price": 148140.0,
+      "pnl_amt": -11443.0,
+      "pnl_pct": -7.72,
+      "reason": "sl",
+      "time": "09:07:04"
+    }
+  ],
+  "summary": {
+    "strategy": "Multi | GapFollow(gap≥0.3%, MA20, TP=2.0%, SL=-1.5%, exit_below_open=True) | GapFollow(gap≥0.3%, MA20, TP=2.0%, SL=-1.5%, exit_below_open=True, excl=['069500', '148020']) | RSIOversoldBounce(period=14, oversold=35, overbought=70.0, TP=1.5%, SL=-1.0%)",
+    "trade_count": 1,
+    "win": 0,
+    "lose": 1,
+    "win_rate": 0.0,
+    "total_pnl_amt": -11443.0,
+    "total_pnl_pct": -1.15,
+    "cash_start": 997793,
+    "cash_end": 997793,
+    "best_trade": {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 136697,
+      "buy_price": 148140.0,
+      "pnl_amt": -11443.0,
+      "pnl_pct": -7.72,
+      "reason": "sl",
+      "time": "09:07:04"
+    },
+    "worst_trade": {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 136697,
+      "buy_price": 148140.0,
+      "pnl_amt": -11443.0,
+      "pnl_pct": -7.72,
+      "reason": "sl",
+      "time": "09:07:04"
+    }
+  }
+}

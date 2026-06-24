@@ -1,0 +1,135 @@
+{
+  "date": "20260622",
+  "strategy": "DualMomentum(abs=5d+1.0%, top3/10, MA20, TP=2.5%, SL=-1.5%)",
+  "trades": [
+    {
+      "code": "069500",
+      "name": "KODEX 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 146205,
+      "buy_price": 146205,
+      "pnl_amt": 0,
+      "pnl_pct": 0.0,
+      "reason": "sl",
+      "time": "09:05:07"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "buy",
+      "qty": 1,
+      "price": 148210,
+      "time": "09:35:33"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:10:27"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:11:12"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:11:48"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:12:22"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:13:00"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:13:34"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:14:07"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:14:41"
+    },
+    {
+      "code": "148020",
+      "name": "RISE 200",
+      "action": "sell",
+      "qty": 1,
+      "price": 149410,
+      "buy_price": 148210,
+      "pnl_amt": 1200,
+      "pnl_pct": 0.81,
+      "reason": "eod",
+      "time": "17:15:15"
+    }
+  ],
+  "summary": {}
+}
